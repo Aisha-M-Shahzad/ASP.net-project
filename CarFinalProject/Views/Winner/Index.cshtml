@@ -1,0 +1,19 @@
+﻿@model CarFinalProject.Models.Winner
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lucky Draw Winner</h2>
+
+<p>
+    @Model.CustomerName
+</p>
+
+<p style="color: coral; font-size: 1.5em">
+    @Session["winner"]
+</p>
+
+<a href="@Url.Action("Index", "Winner")">
+    <img src="~/Content/images/luckydraw.png" style="margin-left: 200px; width: 800px; height: 550px;" />
+</a>

@@ -1,0 +1,97 @@
+﻿@model CarFinalProject.Models.Cart
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cart</h4>
+    <hr />
+    <ul class="nav navbar-nav navbar-right">
+        @Html.ActionLink("Update My Profile", "Edit", "Customer", new { id = User.Identity.Name + "/" }, null)
+    </ul>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+
+    </dl>
+
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>Product Name</th>
+            <th>
+                Product Price
+            </th>
+            <th>Quantity</th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+        @foreach (var item in Model.CartItems)
+
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Product.Price)</td>
+                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                @{int? amount = item.Quantity * item.Product.Price; }
+                <td>@amount</td>
+                @if (Model.Status == "unpaid")
+                {
+                    <td>@Html.ActionLink("Remove", "DeleteItem", "CartItem", new { id = item.Id }, null)</td>
+                }
+            </tr>
+        }
+    </table>
+
+    <p style="color: coral;">
+        @if (ViewBag.offer1 != null)
+        {
+            <b> 
+                Previous Amount: <del>@ViewBag.prevtotal</del> <br />
+                Discount Amount: @Model.Total 
+            </b>
+        }
+        else
+        {
+            <b>
+                Total Amount: @Model.Total
+            </b>
+        }
+    </p>
+    <p style="color: red">@Session["Message"]</p>
+    @{ Session["Message"] = null;}
+</div>
+<p>
+    @Html.ActionLink("View all Carts", "Index", "Cart")
+    @if (Model.Status == "unpaid")
+    {
+        if (ViewBag.hasShipping == "Yes")
+        {
+            <b>|</b> @Html.ActionLink("Check Out", "Edit", "Shippings", new { id = ViewBag.shipid }, null) <b>|</b>
+        }
+        else
+        {
+            <b>|</b> @Html.ActionLink("Check Out", "Create", "Shippings") <b>|</b>
+        }
+    }
+    @Html.ActionLink("Add More Cars", "Index", "Product")
+</p>

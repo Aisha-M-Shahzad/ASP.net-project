@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CarFinalProject.Models.TestDrive>
+
+@{
+    ViewBag.Title = "Booked Cars";
+}
+
+<h2>Your Booked Cars</h2>
+
+<p>
+    @Html.ActionLink("Book Test Drive", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BookDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TestDate)
+        </th>
+        @if (User.Identity.Name == "admin@admin.com")
+        {
+            <th>
+                Customer Name
+            </th>
+        }
+        <th>
+            Booked Car
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TestDate)
+        </td>
+        @if (User.Identity.Name == "admin@admin.com")
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Name)
+            </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

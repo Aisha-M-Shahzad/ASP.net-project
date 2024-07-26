@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Cart_Customer" FromRole="Cart" ToRole="Customer" />
+    <NavigationProperty Name="CartItems" Relationship="Self.FK_Table_Cart" FromRole="Cart" ToRole="CartItem" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="Total" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CartItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="CartId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cart" Relationship="Self.FK_Table_Cart" FromRole="CartItem" ToRole="Cart" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_Table_Prodcut" FromRole="CartItem" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="UserName" />
+    </Key>
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Carts" Relationship="Self.FK_Cart_Customer" FromRole="Customer" ToRole="Cart" />
+    <NavigationProperty Name="TestDrives" Relationship="CarDBModel.FK_Customer_Name" FromRole="Customer" ToRole="TestDrive" />
+    <NavigationProperty Name="Reviews" Relationship="CarDBModel.FK_Review_Customer" FromRole="Customer" ToRole="Review" />
+    <NavigationProperty Name="Shippings" Relationship="CarDBModel.FK_Shipping_Customer" FromRole="Customer" ToRole="Shipping" />
+    <NavigationProperty Name="FAQs" Relationship="CarDBModel.FK_FAQ_id" FromRole="Customer" ToRole="FAQ" />
+    <NavigationProperty Name="CustomerOffers" Relationship="CarDBModel.FK_CustomerOffer_Customer" FromRole="Customer" ToRole="CustomerOffer" />
+    <NavigationProperty Name="Winners" Relationship="CarDBModel.FK_Winner_Customer" FromRole="Customer" ToRole="Winner" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Int32" />
+    <NavigationProperty Name="CartItems" Relationship="Self.FK_Table_Prodcut" FromRole="Product" ToRole="CartItem" />
+    <NavigationProperty Name="TestDrives" Relationship="CarDBModel.FK_Car_Product" FromRole="Product" ToRole="TestDrive" />
+    <NavigationProperty Name="Reviews" Relationship="CarDBModel.FK_Review_Product" FromRole="Product" ToRole="Review" />
+    <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Stock" Type="Int32" />
+    <Property Name="Details" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryId" Type="Int32" />
+    <NavigationProperty Name="Category" Relationship="CarDBModel.FK_Category_Name" FromRole="Product" ToRole="Category" />
+  </EntityType>
+  <Association Name="FK_Cart_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Cart">
+    <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+    <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cart">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="CartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_Prodcut">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CartItem">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CarDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Carts" EntityType="Self.Cart" />
+    <EntitySet Name="CartItems" EntityType="Self.CartItem" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <AssociationSet Name="FK_Cart_Customer" Association="Self.FK_Cart_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Cart" Association="Self.FK_Table_Cart">
+      <End Role="Cart" EntitySet="Carts" />
+      <End Role="CartItem" EntitySet="CartItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_Prodcut" Association="Self.FK_Table_Prodcut">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="CartItem" EntitySet="CartItems" />
+    </AssociationSet>
+    <EntitySet Name="Reviews" EntityType="CarDBModel.Review" />
+    <EntitySet Name="Shippings" EntityType="CarDBModel.Shipping" />
+    <EntitySet Name="SpecialOffers" EntityType="CarDBModel.SpecialOffer" />
+    <EntitySet Name="TestDrives" EntityType="CarDBModel.TestDrive" />
+    <AssociationSet Name="FK_Customer_Name" Association="CarDBModel.FK_Customer_Name">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="TestDrive" EntitySet="TestDrives" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Review_Customer" Association="CarDBModel.FK_Review_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shipping_Customer" Association="CarDBModel.FK_Shipping_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Shipping" EntitySet="Shippings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Car_Product" Association="CarDBModel.FK_Car_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="TestDrive" EntitySet="TestDrives" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Review_Product" Association="CarDBModel.FK_Review_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <EntitySet Name="Categories" EntityType="CarDBModel.Category" />
+    <EntitySet Name="FAQs" EntityType="CarDBModel.FAQ" />
+    <AssociationSet Name="FK_Category_Name" Association="CarDBModel.FK_Category_Name">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FAQ_id" Association="CarDBModel.FK_FAQ_id">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="FAQ" EntitySet="FAQs" />
+    </AssociationSet>
+    <EntitySet Name="CustomerOffers" EntityType="CarDBModel.CustomerOffer" />
+    <AssociationSet Name="FK_CustomerOffer_Customer" Association="CarDBModel.FK_CustomerOffer_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="CustomerOffer" EntitySet="CustomerOffers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CustomerOffer_Offer" Association="CarDBModel.FK_CustomerOffer_Offer">
+      <End Role="SpecialOffer" EntitySet="SpecialOffers" />
+      <End Role="CustomerOffer" EntitySet="CustomerOffers" />
+    </AssociationSet>
+    <EntitySet Name="Winners" EntityType="CarDBModel.Winner" />
+    <AssociationSet Name="FK_Winner_Customer" Association="CarDBModel.FK_Winner_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Winner" EntitySet="Winners" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Rating" Type="Int32" Nullable="false" />
+    <Property Name="Comments" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProductId" Type="Int32" />
+    <NavigationProperty Name="Customer" Relationship="CarDBModel.FK_Review_Customer" FromRole="Review" ToRole="Customer" />
+    <NavigationProperty Name="Product" Relationship="CarDBModel.FK_Review_Product" FromRole="Review" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Shipping">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Zip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="CarDBModel.FK_Shipping_Customer" FromRole="Shipping" ToRole="Customer" />
+  </EntityType>
+  <EntityType Name="SpecialOffer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CustomerOffers" Relationship="CarDBModel.FK_CustomerOffer_Offer" FromRole="SpecialOffer" ToRole="CustomerOffer" />
+  </EntityType>
+  <EntityType Name="TestDrive">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CarId" Type="Int32" />
+    <Property Name="BookDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TestDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="CarDBModel.FK_Customer_Name" FromRole="TestDrive" ToRole="Customer" />
+    <NavigationProperty Name="Product" Relationship="CarDBModel.FK_Car_Product" FromRole="TestDrive" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK_Customer_Name">
+    <End Type="CarDBModel.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="CarDBModel.TestDrive" Role="TestDrive" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="TestDrive">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Review_Customer">
+    <End Type="CarDBModel.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="CarDBModel.Review" Role="Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shipping_Customer">
+    <End Type="CarDBModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="CarDBModel.Shipping" Role="Shipping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="Shipping">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Car_Product">
+    <End Type="CarDBModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="CarDBModel.TestDrive" Role="TestDrive" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TestDrive">
+        <PropertyRef Name="CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Review_Product">
+    <End Type="CarDBModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="CarDBModel.Review" Role="Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="CarDBModel.FK_Category_Name" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="FAQ">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Question" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Answer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="CarDBModel.FK_FAQ_id" FromRole="FAQ" ToRole="Customer" />
+  </EntityType>
+  <Association Name="FK_Category_Name">
+    <End Type="CarDBModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="CarDBModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FAQ_id">
+    <End Type="CarDBModel.Customer" Role="Customer" Multiplicity="0..1" />
+    <End Type="CarDBModel.FAQ" Role="FAQ" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="FAQ">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CustomerOffer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Offer" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="CarDBModel.FK_CustomerOffer_Customer" FromRole="CustomerOffer" ToRole="Customer" />
+    <NavigationProperty Name="SpecialOffer" Relationship="CarDBModel.FK_CustomerOffer_Offer" FromRole="CustomerOffer" ToRole="SpecialOffer" />
+  </EntityType>
+  <Association Name="FK_CustomerOffer_Customer">
+    <End Type="CarDBModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="CarDBModel.CustomerOffer" Role="CustomerOffer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="CustomerOffer">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CustomerOffer_Offer">
+    <End Type="CarDBModel.SpecialOffer" Role="SpecialOffer" Multiplicity="1" />
+    <End Type="CarDBModel.CustomerOffer" Role="CustomerOffer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SpecialOffer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomerOffer">
+        <PropertyRef Name="Offer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Winner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="CarDBModel.FK_Winner_Customer" FromRole="Winner" ToRole="Customer" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Winner_Customer">
+    <End Type="CarDBModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="CarDBModel.Winner" Role="Winner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="UserName" />
+      </Principal>
+      <Dependent Role="Winner">
+        <PropertyRef Name="CustomerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

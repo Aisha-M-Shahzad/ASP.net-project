@@ -1,0 +1,18 @@
+﻿@model IEnumerable<CarFinalProject.Models.CustomerOffer>
+@{
+    ViewBag.Title = "Customer Lucky Draw";
+}
+
+<h2>Customer Lucky Draw</h2>
+
+<h3>The list of customers who took part in the lucky draw</h3>
+@Session["nocust"] <br />
+    @{ 
+        foreach(var c in Model)
+        {
+            <li>@c.CustomerName</li>
+        }
+    }
+
+
+@Html.ActionLink("Go Find the Lucky Customer", "LuckyCustomer", "CartAdmin")

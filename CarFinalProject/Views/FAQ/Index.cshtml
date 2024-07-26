@@ -1,0 +1,39 @@
+﻿
+@model IEnumerable<CarFinalProject.Models.FAQ>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Frequently Asked Questions</h2>
+
+<p>
+    @Html.ActionLink("Ask a Question", "Create")
+</p>
+
+
+    <div class="bs-component">
+        <div class="list-group">
+            @foreach (var item in Model)
+            {
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                    <div class="d-flex w-100 justify-content-between">
+                        @item.Question
+                    </div>
+
+                </a>
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        @item.Answer
+                    </div>
+                </a>
+                if (User.Identity.Name == "admin@admin.com")
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id + "/" }) <b>| </b>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id + "/" }) <b>|</b>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id + "/" })
+                }
+            }
+        </div>
+    </div>
+

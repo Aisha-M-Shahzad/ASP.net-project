@@ -1,0 +1,32 @@
+﻿<style>
+    #cat-container{
+        width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #cat img{
+        margin: 40px;
+    }
+</style>
+@model IEnumerable<CarFinalProject.Models.Category>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Sports Car Brands</h2>
+
+<p>
+    @if (User.Identity.Name == "admin@admin.com")
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+</p>
+<div id="cat-container">
+    @foreach (var cat in Model)
+    {
+        <span id="cat">
+            <a href="@Url.Action("Details", "Category", new { id = cat.Id}, null)"><img src='~/Content/images/@{@cat.Name}.jpg' height='300' , width='350' /></a>
+        </span>
+    }
+</div>

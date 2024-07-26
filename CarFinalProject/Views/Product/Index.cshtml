@@ -1,0 +1,100 @@
+﻿@model IEnumerable<CarFinalProject.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    #test-drive img{
+        float: right;
+        margin-bottom: 20px;
+    }
+</style>
+<h2>Index</h2>
+
+<p>
+    @if (User.Identity.Name == "admin@admin.com")
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+
+</p>
+<div id="test-drive">
+    <a href="@Url.Action("Index", "TestDrives")"><img src="~/Content/images/test-drive.png" style="width: 250px; height: 80px;"/></a>
+</div>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Car: @Html.TextBox("productName")
+        Category: @Html.DropDownList("brandName")
+        <b>< 2M </b> @Html.RadioButton("amount", "200000")
+        <b>> 2M </b> @Html.RadioButton("amount", "200001")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        @if (User.Identity.Name == "admin@admin.com")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+        }
+        <th>
+            Preview
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                QR @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            @if (User.Identity.Name == "admin@admin.com")
+            {
+                <td>@Html.DisplayFor(modelItem => item.Stock)</td>
+
+            }
+            <td>
+                <img src="~/Content/images/@item.Image" style="width: 50px; height: 50px;"/>
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
+            <td>
+                @if (User.Identity.Name == "admin@admin.com")
+                {
+                    <b> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | </b>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <b> | </b>
+                }
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                @Html.ActionLink("Buy", "Buy", "Transaction", new { id = item.Id }, null)
+            </td>
+
+        </tr>
+
+    }
+    <p style="color: red">
+        @Session["saved-error"]
+        @{ Session["saved-error"] = null; }
+    </p>
+    
+</table>
+@if (User.Identity.Name == "admin@admin.com")
+{
+    @Html.ActionLink("Back to Admin Crud Page", "AdminCrud", "CartAdmin")
+}

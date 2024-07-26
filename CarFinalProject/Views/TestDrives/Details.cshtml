@@ -1,0 +1,52 @@
+﻿@model CarFinalProject.Models.TestDrive
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TestDrive</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TestDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TestDate)
+        </dd>
+
+        <dt>
+            Customer Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+
+        <dt>
+            Car Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+
+    </dl>
+
+    <img src="~/Content/images/@Model.Product.Image" style="height: 400px; width: 600px;" />
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

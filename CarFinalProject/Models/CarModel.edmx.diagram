@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0823d42fbb994e1c8fbeaa28a99b6e9b" Name="Diagram1">
+        <EntityTypeShape EntityType="CarDBModel.Cart" Width="1.5" PointX="3.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDBModel.CartItem" Width="1.5" PointX="6.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDBModel.Customer" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDBModel.Product" Width="1.5" PointX="9.125" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="CarDBModel.FK_Cart_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDBModel.FK_Table_Cart" ManuallyRouted="false" />
+        <AssociationConnector Association="CarDBModel.FK_Table_Prodcut" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CarDBModel.Review" Width="1.5" PointX="7.75" PointY="4.5" />
+        <EntityTypeShape EntityType="CarDBModel.Shipping" Width="1.5" PointX="0.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CarDBModel.SpecialOffer" Width="1.5" PointX="10.875" PointY="4.25" />
+        <EntityTypeShape EntityType="CarDBModel.TestDrive" Width="1.5" PointX="3.375" PointY="4.375" />
+        <AssociationConnector Association="CarDBModel.FK_Customer_Name" />
+        <AssociationConnector Association="CarDBModel.FK_Review_Customer" />
+        <AssociationConnector Association="CarDBModel.FK_Shipping_Customer" />
+        <AssociationConnector Association="CarDBModel.FK_Car_Product" />
+        <AssociationConnector Association="CarDBModel.FK_Review_Product" />
+        <EntityTypeShape EntityType="CarDBModel.Category" Width="1.5" PointX="5.375" PointY="7.25" />
+        <EntityTypeShape EntityType="CarDBModel.FAQ" Width="1.5" PointX="2.625" PointY="7.125" />
+        <AssociationConnector Association="CarDBModel.FK_Category_Name" />
+        <AssociationConnector Association="CarDBModel.FK_FAQ_id" />
+        <EntityTypeShape EntityType="CarDBModel.CustomerOffer" Width="1.5" PointX="13.75" PointY="2.5" />
+        <AssociationConnector Association="CarDBModel.FK_CustomerOffer_Customer" />
+        <AssociationConnector Association="CarDBModel.FK_CustomerOffer_Offer" />
+        <EntityTypeShape EntityType="CarDBModel.Winner" Width="1.5" PointX="2.75" PointY="10.125" />
+        <AssociationConnector Association="CarDBModel.FK_Winner_Customer" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CarFinalProject.Models.SpecialOffer>
+
+@{
+    ViewBag.Title = "Special Offers";
+}
+
+<h2>Special Offers</h2>
+@if (User.Identity.Name == "admin@admin.com")
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        @if (User.Identity.Name == "admin@admin.com")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th></th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            @if (User.Identity.Name == "admin@admin.com")
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            }
+            <td>@Html.ActionLink("Add to Account", "AddOffer", "CustomerOffer", new { id = item.Id }, null)</td>
+        </tr>
+    }
+</table>
+<p style="color: red;">
+    @Session["offer"]
+    @{
+        Session["offer"] = null;
+    }
+</p>

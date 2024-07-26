@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    .slide-img{
+        width: 1200px; height: 450px;
+    }
+    .slide-img img{
+        height: 100%;
+        width: 100%;
+    }
+</style>
+    <head>
+        <title>W3.CSS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta content="text/html; charset=iso-8859-2" http-equiv="Content-Type">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <style>
+            .mySlides {
+                display: none;
+            }
+        </style>
+    </head>
+<div class="slide-img">
+    <img class="mySlides" src="~/Content/images/SL1.jpg">
+    <img class="mySlides" src="~/Content/images/SL2.jpg" >
+    <img class="mySlides" src="~/Content/images/SL3.jpg" >
+</div>
+<div class="row">
+    <h1>Welcome to Flemings Sports Car Website!</h1>
+    <p>Have a look at our special offers before you place an order.</p>
+    <a href="@Url.Action("Index", "SpecialOffer")">
+        <img src="~/Content/images/special-offer.png" style="margin-left: 150px;"/>
+    </a>
+    <a href="@Url.Action("PopularProduct", "Product")">
+        <img src="~/Content/images/popular.png" style="margin-left: 150px;" />
+    </a>
+    <a href="@Url.Action("Index", "Winner")">
+        <img src="~/Content/images/luckydraw.png" style="margin-left: 200px; width: 800px; height: 550px;"/>
+    </a>
+</div>
+    <script>
+        var myIndex = 0;
+        carousel();
+
+function carousel() {
+  var i;
+        var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+  if (myIndex > x.length) {myIndex = 1}
+        x[myIndex-1].style.display = "block";
+        setTimeout(carousel, 2000); // Change image every 2 seconds
+      }
+</script>
+

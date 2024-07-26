@@ -1,0 +1,12 @@
+﻿@model CarFinalProject.Models.Customer
+@{
+    ViewBag.Title = "LuckyCustomer";
+}
+
+<h2>Lucky Customer</h2>
+
+<p>
+    The lucky customer is @Model.UserName
+</p>
+
+@Html.ActionLink("Back to the draw", "DisplayLuckyDraw", "CartAdmin")

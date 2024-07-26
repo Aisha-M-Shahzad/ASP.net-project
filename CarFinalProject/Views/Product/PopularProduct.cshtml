@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "PopularProduct";
+}
+@model CarFinalProject.Models.Product
+
+<h2>Popular Product</h2>
+
+<div>
+    <p>
+       <h1 style="color: lightcoral; font-family: 'Global Monospace'">Our most popular car is @Model.Name</h1>
+        <img src="~/Content/images/@Model.Image" height="250" width="300" />
+    </p>
+</div>
